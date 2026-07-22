@@ -3,4 +3,3 @@ python-dotenv
 requests
 twilio
 email-validator
-functions-framework

@@ -6,6 +6,7 @@ from logger import get_logger
 
 log = get_logger("whatsapp")
 
+
 @tool
 def send_whatsapp_message(message: str) -> str:
     """
@@ -16,15 +17,11 @@ def send_whatsapp_message(message: str) -> str:
     twilio_token = settings.TWILIO_AUTH_TOKEN.get_secret_value()
     twilio_from = settings.TWILIO_FROM_NUMBER
     twilio_to = settings.TWILIO_TO_NUMBER
-    
+
     log.info(f"Preparing to send WhatsApp message via Twilio to {twilio_to}...")
     try:
         client = Client(twilio_sid, twilio_token)
-        msg = client.messages.create(
-            body=message,
-            from_=twilio_from,
-            to=twilio_to
-        )
+        msg = client.messages.create(body=message, from_=twilio_from, to=twilio_to)
         log.info(f"WhatsApp message dispatched successfully. Twilio SID: {msg.sid}")
         return f"WhatsApp message successfully sent via Twilio. Message SID: {msg.sid}"
     except Exception as e:

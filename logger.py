@@ -25,6 +25,7 @@ file_handler = logging.FileHandler(log_file_path, encoding="utf-8")
 file_handler.setFormatter(logging.Formatter(LOG_FORMAT, DATE_FORMAT))
 logger.addHandler(file_handler)
 
+
 def get_logger(name: str) -> logging.Logger:
     """Return a sub-logger inheriting configuration from the root logger."""
     return logger.getChild(name)

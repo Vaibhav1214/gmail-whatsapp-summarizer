@@ -1,15 +1,17 @@
 import os
+
 from pydantic import EmailStr, SecretStr, field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
+
 
 class Settings(BaseSettings):
     # API Configurations
     GEMINI_API_KEY: SecretStr
-    
+
     # Gmail IMAP Configurations
     GMAIL_EMAIL: EmailStr
     GMAIL_APP_PASSWORD: SecretStr
-    
+
     # Twilio WhatsApp Configurations
     TWILIO_ACCOUNT_SID: str
     TWILIO_AUTH_TOKEN: SecretStr
@@ -27,8 +29,9 @@ class Settings(BaseSettings):
         # Load from .env if it exists, otherwise fall back to environment variables
         env_file=os.path.join(os.path.dirname(__file__), ".env"),
         env_file_encoding="utf-8",
-        extra="ignore"
+        extra="ignore",
     )
+
 
 try:
     settings = Settings()
