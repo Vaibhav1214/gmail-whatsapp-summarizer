@@ -1,0 +1,47 @@
+name: Trigger Email Agent Cloud Function
+
+on:
+  schedule:
+    # Trigger automatically every 6 hours (at minute 0 of hours divisible by 6)
+    - cron: '0 */6 * * *'
+  workflow_dispatch:
+    # Allow manual triggering from the GitHub Actions UI
+
+jobs:
+  trigger-agent:
+    runs-on: ubuntu-latest
+
+    steps:
+    # Google Cloud Authentication (needed if your Cloud Function is private/secured)
+    # Paste your Google Service Account credentials JSON into GCF_SERVICE_ACCOUNT_KEY repository secrets.
+    - name: Authenticate with GCP
+      id: auth
+      uses: google-github-actions/auth@v1
+      continue-on-error: true
+      with:
+        credentials_json: ${{ secrets.GCF_SERVICE_ACCOUNT_KEY }}
+        token_format: 'id_token'
+        id_token_audience: ${{ secrets.GCF_URL }}
+
+    # Send trigger HTTP POST request to your Google Cloud Function URL
+    - name: Trigger Agent Function
+      run: |
+        GCF_URL="${{ secrets.GCF_URL }}"
+        if [ -z "$GCF_URL" ]; then
+          echo "ERROR: GCF_URL secret is not configured in this GitHub repository."
+          exit 1
+        fi
+        
+        # Use Bearer Token if authenticated, otherwise make a raw POST request
+        if [ -n "${{ steps.auth.outputs.id_token }}" ]; then
+          echo "Triggering secure private Cloud Function..."
+          curl -X POST "$GCF_URL" \
+            -H "Authorization: Bearer ${{ steps.auth.outputs.id_token }}" \
+            -H "Content-Type: application/json" \
+            -d '{}'
+        else
+          echo "Triggering public Cloud Function..."
+          curl -X POST "$GCF_URL" \
+            -H "Content-Type: application/json" \
+            -d '{}'
+        fi
