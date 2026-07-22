@@ -1,0 +1,25 @@
+[project]
+name = "email-to-whatsapp-agent"
+version = "1.0.0"
+description = "An autonomous AI agent retrieving and summarizing Gmail emails to WhatsApp"
+authors = [
+    { name = "Vaibhav Mishra", email = "mishravaibhav1214@gmail.com" }
+]
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "strands-agents[gemini]>=1.48.0",
+    "python-dotenv>=1.2.2",
+    "requests>=2.34.2",
+    "twilio>=9.10.9",
+    "email-validator>=2.3.0"
+]
+
+[tool.ruff]
+line-length = 88
+select = ["E", "F", "W", "I"]
+
+[tool.black]
+line-length = 88
+target-version = ['py310']
+exclude = '/(\.eggs|\.git|\.hg|\.mypy_cache|\.nox|\.tox|\.venv|_build|buck-out|build|dist)/'

@@ -1,0 +1,12 @@
+version: '3.8'
+
+services:
+  email-agent:
+    build: .
+    container_name: email_to_whatsapp_agent
+    env_file:
+      - .env
+    volumes:
+      # Keep logs persistent outside the container
+      - ./logs:/app/logs
+    restart: "no"

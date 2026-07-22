@@ -1,0 +1,21 @@
+# Environment Variables & Sensitive Secrets
+.env
+
+# Virtual Environment
+.venv/
+venv/
+ENV/
+
+# Python Cache & Compiled Files
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# OS Files
+.DS_Store
+Thumbs.db
+
+# Application logs
+logs/

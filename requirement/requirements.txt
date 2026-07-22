@@ -1,0 +1,5 @@
+strands-agents[gemini]
+python-dotenv
+requests
+twilio
+email-validator
